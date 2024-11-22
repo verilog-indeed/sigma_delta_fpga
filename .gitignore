@@ -1,0 +1,10 @@
+*.cf
+.vscode/extensions.json
+*.vcd 
+*.o
+*.bak
+*.exe
+*.gtkw
+*.ghw
+*.ghw
+*/impl/*
