@@ -25,8 +25,6 @@ y = zeros(1, sample_count);
 x_digital = zeros(1, sample_count);
 s = zeros(1, sample_count); % integrator output history (x_digit before decimation)
 
-%sample & hold (discretize)
-
 %STF = 1
 for i=2:sample_count
   %difference (comparator)
