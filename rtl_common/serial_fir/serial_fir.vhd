@@ -15,9 +15,10 @@ entity serial_fir is
     port (
         i_core_clk              : in  std_logic;
         i_core_clk_en           : in  std_logic;
+        i_resetn                : in  std_logic;
+
         i_raw_signal            : in  ufixed(WHOLE_BITS-1 downto -FRAC_BITS); --TODO maybe it should be sfixed?
         i_raw_signal_valid      : in  std_logic;
-        i_resetn                : in  std_logic;
 
         o_filtered_signal       : out ufixed(WHOLE_BITS-1 downto -FRAC_BITS);
         o_filtered_signal_valid : out std_logic;
@@ -30,16 +31,21 @@ architecture rtl of serial_fir is
     type coeff_arr is array (0 to FILTER_ORDER) of sfixed(WHOLE_BITS-1 downto -FRAC_BITS);
     
 begin
-    input_buffer: entity work.rolling_buffer
+    input_buffer: entity work.circular_decimator
     generic map (
-        DECIMATE_RATIO => DECIMATE_RATIO;
+        BUFFER_SIZE    => FILTER_ORDER+1,
+        SIGNAL_WIDTH   => SIGNAL_WIDTH,
+        FRAC_BITS      => FRAC_BITS,
+        DECIMATE_RATIO => DECIMATE_RATIO,
         SYN_RAMSTYLE   => BUFFER_SYN_RAMSTYLE
     ) port map (
+        i_core_clk     => i_core_clk,
+        i_resetn       => i_resetn,
 
-        i_sample_ready,
-        o_sample_valid,
-        o_sample,
-        o_sample_last,
-        o_sample_count
+        i_sample_ready =>,
+        o_sample_valid =>,
+        o_sample       =>,
+        o_sample_last =>,
+        o_sample_count =>
     );
 end architecture;
