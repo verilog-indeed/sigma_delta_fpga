@@ -22,8 +22,12 @@ class circular_decimator:
     def dequeue(self):
         if (self.count > 0):
             item = self.buffer[self.rd_ptr]
-            self.rd_ptr = (self.rd_ptr + 1) % self.maxsize
-            self.count = self.count - 1
+            if (self.rd_ptr == (self.wr_ptr - 1) % self.maxsize):
+                print("haaaaaah")
+                self.rd_ptr = (self.rd_ptr - self.maxsize + 1 + self.dec_ratio) % self.maxsize
+                self.count = self.count - 1
+            else:
+                self.rd_ptr = (self.rd_ptr + 1) % self.maxsize
             return item
         else:
             print("oh no theres nothing to read!")
@@ -42,6 +46,7 @@ def main():
     for i in range(5, 10):
         print(i)
         buff.enqueue(i)
+        
     for i in range(5, 10):
         result = buff.dequeue()
         print(result)
